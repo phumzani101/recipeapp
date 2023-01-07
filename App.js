@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import HomeScreen from "./src/features/home/screens/HomeScreen";
-import { NavigationContainer } from "@react-navigation/native";
+import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import "react-native-gesture-handler";
 import { createStackNavigator } from "@react-navigation/stack";
 import SplashScreen from "./src/features/home/screens/SplashScreen";
@@ -10,10 +10,23 @@ import RecipesScreen from "./src/features/recipes/screens/RecipesScreen";
 const Stack = createStackNavigator();
 
 export default function App() {
+  const MyTheme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      background: "#FFFFFF",
+    },
+  };
+
   return (
     <>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerTitleAlign: "center" }}>
+      <NavigationContainer theme={MyTheme}>
+        <Stack.Navigator
+          screenOptions={{
+            headerTitleAlign: "center",
+            headerShadowVisible: false,
+          }}
+        >
           <Stack.Screen
             name="Splash"
             component={SplashScreen}
