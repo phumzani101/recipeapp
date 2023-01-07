@@ -13,9 +13,9 @@ import colors from "../../../components/shared/colors";
 
 const { width } = Dimensions.get("window");
 
-const RecipeCard = ({ title, image, author, rating, time }) => {
+const RecipeCard = ({ title, image, author, rating, time, onPress }) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.row}>
         <Text style={styles.title} numberOfLines={1}>
           {title}
@@ -34,25 +34,35 @@ const RecipeCard = ({ title, image, author, rating, time }) => {
         }}
       />
       <View style={styles.footer}>
-        <View style={styles.row}>
-          {author?.image && (
-            <Image style={styles.authorImage} source={{ uri: author?.image }} />
-          )}
+        {author ? (
+          <View style={styles.row}>
+            {author?.image && (
+              <Image
+                style={styles.authorImage}
+                source={{ uri: author?.image }}
+              />
+            )}
 
-          <Text style={styles.subText}>by {author?.name}</Text>
-        </View>
-
-        <View style={styles.row}>
-          <Ionicons
-            name="time-outline"
-            size={17}
-            color="black"
-            style={styles.icon}
-          />
-          <Text style={styles.subText}>{time}</Text>
-        </View>
+            <Text style={styles.subText}>by {author?.name}</Text>
+          </View>
+        ) : (
+          <View />
+        )}
+        {time ? (
+          <View style={styles.row}>
+            <Ionicons
+              name="time-outline"
+              size={17}
+              color="black"
+              style={styles.icon}
+            />
+            <Text style={styles.subText}>{time}</Text>
+          </View>
+        ) : (
+          <View />
+        )}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -91,12 +101,14 @@ const styles = StyleSheet.create({
     height: 24,
     marginRight: 8,
     borderRadius: 20,
+    backgroundColor: colors.lightGrey,
   },
   image: {
     width: 70,
     height: 70,
     borderRadius: 50,
     marginTop: -40,
+    backgroundColor: colors.lightGrey,
   },
   subText: {
     color: colors.lightGrey2,

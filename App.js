@@ -6,6 +6,8 @@ import "react-native-gesture-handler";
 import { createStackNavigator } from "@react-navigation/stack";
 import SplashScreen from "./src/features/home/screens/SplashScreen";
 import RecipesScreen from "./src/features/recipes/screens/RecipesScreen";
+import { RecipeContextProvider } from "./src/services/RecipeContext";
+import RecipeDetailsScreen from "./src/features/recipes/screens/RecipeDetailsScreen";
 
 const Stack = createStackNavigator();
 
@@ -19,7 +21,7 @@ export default function App() {
   };
 
   return (
-    <>
+    <RecipeContextProvider>
       <NavigationContainer theme={MyTheme}>
         <Stack.Navigator
           screenOptions={{
@@ -42,11 +44,16 @@ export default function App() {
             component={RecipesScreen}
             // options={{ headerLeft: null, gestureEnabled: false }}
           />
+          <Stack.Screen
+            name="RecipeDetails"
+            component={RecipeDetailsScreen}
+            // options={{ headerShown: false }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
 
       <StatusBar style="auto" />
-    </>
+    </RecipeContextProvider>
   );
 }
 

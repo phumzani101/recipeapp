@@ -13,9 +13,9 @@ import colors from "../../../components/shared/colors";
 
 const { width } = Dimensions.get("window");
 
-const RecipeItem = ({ title, image, author, rating, time }) => {
+const RecipeItem = ({ title, image, author, rating, time, onPress }) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       {image && <Image source={{ uri: image }} style={styles.image} />}
       <Text style={styles.title} numberOfLines={2}>
         {title}
@@ -49,7 +49,7 @@ const RecipeItem = ({ title, image, author, rating, time }) => {
         />
         <Text style={styles.subText}>{time}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -69,8 +69,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     width: width * 0.4,
     marginTop: 55,
-    marginRight: 16,
-    marginVertical: 32,
+    margin: 8,
   },
   row: {
     flexDirection: "row",

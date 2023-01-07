@@ -1,40 +1,45 @@
-import React from "react";
-import {
-  Image,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import React, { useContext, useState } from "react";
+import { Pressable, StyleSheet, TextInput, View } from "react-native";
 import colors from "./shared/colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { RecipeContext } from "../services/RecipeContext";
 
 const RenderInput = ({
   placeholder = "Search recipe",
   showIcon = true,
   style,
   editable = true,
-}) => (
-  <View style={[styles.container, style]}>
-    {showIcon && (
-      <Ionicons
-        name="search"
-        size={24}
-        color={colors.lightGrey}
-        style={styles.icon}
-      />
-    )}
+  autoFocus = false,
+}) => {
+  const [keyword, setKeyword] = useState("");
+  const { search } = useContext(RecipeContext);
+  return (
+    <View style={[styles.container, style]}>
+      {showIcon && (
+        <Ionicons
+          name="search"
+          size={24}
+          color={colors.lightGrey}
+          style={styles.icon}
+        />
+      )}
 
-    <TextInput
-      placeholder={placeholder}
-      placeholderTextColor={colors.lightGrey}
-      style={styles.input}
-      editable={editable}
-    />
-  </View>
-);
+      <TextInput
+        placeholder={placeholder}
+        placeholderTextColor={colors.lightGrey}
+        style={styles.input}
+        editable={editable}
+        autoFocus={autoFocus}
+        value={keyword}
+        onChangeText={(text) => setKeyword(text)}
+        onSubmitEditing={() => {
+          search({ q: keyword });
+          console.log("submitEditing");
+        }}
+      />
+    </View>
+  );
+};
 
 const Input = ({
   placeholder = "Search recipe",
@@ -42,6 +47,7 @@ const Input = ({
   style,
   pressable = false,
   onPress,
+  autoFocus,
 }) => {
   if (pressable) {
     return (
@@ -51,12 +57,18 @@ const Input = ({
           showIcon={showIcon}
           style={style}
           editable={!pressable}
+          autoFocus={autoFocus}
         />
       </Pressable>
     );
   }
   return (
-    <RenderInput placeholder={placeholder} showIcon={showIcon} style={style} />
+    <RenderInput
+      placeholder={placeholder}
+      showIcon={showIcon}
+      style={style}
+      autoFocus={autoFocus}
+    />
   );
 };
 

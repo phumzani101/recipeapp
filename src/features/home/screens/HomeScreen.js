@@ -1,54 +1,80 @@
+import { useContext, useState } from "react";
 import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import CategoryList from "../../../components/CategoryList";
 import Input from "../../../components/Input";
 import colors from "../../../components/shared/colors";
 import Title from "../../../components/Title";
+import { RecipeContext } from "../../../services/RecipeContext";
 import RecipeCard from "../../recipes/components/RecipeCard";
 import RecipeItem from "../../recipes/components/RecipeItem";
 
 const HomeScreen = ({ navigation }) => {
+  const { recipes = [], tags = [] } = useContext(RecipeContext);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
   const goToRecipes = () => {
     navigation.navigate("Recipes");
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <Input onPress={goToRecipes} pressable />
       <Title style={styles.title} text="Featured Recipes" />
 
       <FlatList
-        data={[1, 2, 3]}
-        keyExtractor={(item) => item}
+        data={recipes}
+        keyExtractor={(item) => item.id}
         horizontal
         showsHorizontalScrollIndicator={false}
-        renderItem={({ item }) => (
+        renderItem={({ item, index }) => (
           <RecipeCard
-            title="Fuckerty  svsdfvfv badbdfb"
-            image="https://placeimg.com/640/480/any"
-            author={{ name: "Fuck", image: "https://placeimg.com/640/480/any" }}
-            rating={4.3}
-            time="20 mins"
+            title={item.name}
+            image={item.thumbnail_url || "https://placeimg.com/640/480/any"}
+            author={
+              item.credits.length
+                ? {
+                    name: item.credits[0].name,
+                    image: item.credits[0].image_url,
+                  }
+                : { name: "unknown", image: "https://placeimg.com/640/480/any" }
+            }
+            rating={item?.user_ratings?.score || 0}
+            time={item?.cook_time_minutes}
+            onPress={() => {
+              navigation.navigate("RecipeDetails", { recipe: item });
+            }}
           />
         )}
       />
 
       <CategoryList
-        categories={["All", "Recipes", "Featured"]}
-        selected={"All"}
-        onCategoryPress={() => {}}
+        categories={tags}
+        selected={selectedCategory}
+        onCategoryPress={setSelectedCategory}
       />
 
       <FlatList
-        data={[1, 2, 3]}
-        keyExtractor={(item) => item}
+        data={recipes}
+        keyExtractor={(item) => item.id}
         horizontal
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => (
           <RecipeItem
-            title="Fuckerty  svsdfvfv badbdfb"
-            image="https://placeimg.com/640/480/any"
-            author={{ name: "Fuck", image: "https://placeimg.com/640/480/any" }}
-            rating={4.3}
-            time="20 mins"
+            title={item.name}
+            image={item.thumbnail_url || "https://placeimg.com/640/480/any"}
+            author={
+              item.credits.length
+                ? {
+                    name: item.credits[0].name,
+                    image: item.credits[0].image_url,
+                  }
+                : { name: "unknown", image: "https://placeimg.com/640/480/any" }
+            }
+            rating={item?.user_ratings?.score || 0}
+            time={item?.cook_time_minutes}
+            onPress={() => {
+              navigation.navigate("RecipeDetails", { recipe: item });
+            }}
           />
         )}
       />
