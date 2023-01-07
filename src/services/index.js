@@ -12,8 +12,8 @@ export const getRecipesRequest = async ({
     url: "https://tasty.p.rapidapi.com/recipes/list",
     params: { from, size, tags, q },
     headers: {
-      "X-RapidAPI-Key": "b1fabd772dmsh41971a86919976ap17e62bjsn760ea97b0e34",
-      "X-RapidAPI-Host": "tasty.p.rapidapi.com",
+      "X-RapidAPI-Key": "add your key here",
+      "X-RapidAPI-Host": "add your key here",
     },
   };
 
